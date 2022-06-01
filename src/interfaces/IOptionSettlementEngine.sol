@@ -103,7 +103,6 @@ interface IOptionSettlementEngine {
 
     // @dev This enumeration is used to determine the type of an ERC1155 subtoken in the engine.
     enum Type {
-        None,
         Option,
         Claim
     }

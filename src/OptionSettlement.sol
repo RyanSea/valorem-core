@@ -108,7 +108,7 @@ contract OptionSettlementEngine is ERC1155, IOptionSettlementEngine {
         override
         returns (string memory)
     {
-        if (tokenType[tokenId] != Type.None) {
+        if (tokenId >= nextTokenId) {
             revert TokenNotFound(tokenId);
         }
         // TODO(Implement metadata/uri with frontend dev)
@@ -441,9 +441,10 @@ contract OptionSettlementEngine is ERC1155, IOptionSettlementEngine {
         view
         returns (Underlying memory underlyingPositions)
     {
-        if (tokenType[tokenId] != Type.None) {
+        if (tokenId >= nextTokenId) {
             revert TokenNotFound(tokenId);
-        } else if (tokenType[tokenId] != Type.Option) {
+        }
+        if (tokenType[tokenId] == Type.Option) {
             Option storage optionRecord = _option[tokenId];
             bool expired = (optionRecord.expiryTimestamp > block.timestamp);
             underlyingPositions = Underlying({
